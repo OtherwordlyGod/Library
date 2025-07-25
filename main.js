@@ -26,7 +26,13 @@ function displayBooks() {
     }
 }
 
-
+function updateDisplay() {
+    const book = myLibrary[myLibrary.length - 1];
+    let newBook = document.createElement('p');
+    newBook.textContent = book.info();
+    newBook.classList.add("book");
+    libraryContainer.appendChild(newBook)
+  }  
 
 addBook.addEventListener('click', () => {
     const dialog = document.createElement('dialog');
