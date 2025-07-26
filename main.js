@@ -41,35 +41,26 @@ function displayBooks() {
 
       removeBtn.addEventListener('click', () => {
         console.log("clicked");
-        const clickedId = removeBtn.dataset.id;
-        console.log(clickedId);
-        for (let b of myLibrary) {
+        const clickedId = readBtn.dataset.id;
+        const b = myLibrary.find(book => book.getId() === clickedId);       
           if (clickedId === b.getId()) {
             console.log("Matched Book:", b.info());
             removeBook(b, newBook);
-            break;
           }
-        }
       }) 
 
       readBtn.addEventListener('click', () => {
         console.log("clicked");
         const clickedId = readBtn.dataset.id;
-        console.log(clickedId);
-        for (let b of myLibrary) {
-            if (clickedId === b.getId()) {    
-                console.log("Matched Book:", b.info());
-                if (b) {
-                    b.read = !b.read;
-                if (b.read) {
-                    newBook.classList.add("read");
-                    newBook.classList.remove("not-read");
-                } else {
-                    newBook.classList.add("not-read");
-                    newBook.classList.remove("read");
-                }
-                break;
-                }
+        const b = myLibrary.find(book => book.getId() === clickedId); 
+        if (b) {
+            b.read = !b.read;
+            if (b.read) {
+                newBook.classList.add("read");
+                newBook.classList.remove("not-read");
+            } else {
+                newBook.classList.add("not-read");
+                newBook.classList.remove("read");
             }
         }
     })
@@ -92,34 +83,26 @@ function updateDisplay() {
 
     removeBtn.addEventListener('click', () => {
         console.log("clicked");
-        const clickedId = removeBtn.dataset.id;
-        console.log(clickedId);
-        for (let b of myLibrary) {
+        const clickedId = readBtn.dataset.id;
+        const b = myLibrary.find(book => book.getId() === clickedId);       
           if (clickedId === b.getId()) {
             console.log("Matched Book:", b.info());
             removeBook(b, newBook);
-            break;
           }
-        }
     }) 
 
     readBtn.addEventListener('click', () => {
-        console.log("clicked");
+        console.log('clicked');
         const clickedId = readBtn.dataset.id;
-        console.log(clickedId);
-        for (let b of myLibrary) {
-            if (clickedId === b.getId()) {
-                console.log("Matched Book:", b.info());
-                if (b) {
-                    b.read = !b.read; // toggle status
-                if (b.read) {
-                    newBook.classList.add("read");
-                    newBook.classList.remove("not-read");
-                } else {
-                    newBook.classList.add("not-read");
-                    newBook.classList.remove("read");
-                }  
-                }
+        const b = myLibrary.find(book => book.getId() === clickedId); 
+        if (b) {
+            b.read = !b.read;
+            if (b.read) {
+                newBook.classList.add("read");
+                newBook.classList.remove("not-read");
+            } else {
+                newBook.classList.add("not-read");
+                newBook.classList.remove("read");
             }
         }
     })
