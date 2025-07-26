@@ -29,3 +29,11 @@ body {
   .inputContainer { 
     width: 200px;
   }
+
+  .read {
+    background-color: green;
+  }
+
+  .not-read {
+    background-color: white;
+  }

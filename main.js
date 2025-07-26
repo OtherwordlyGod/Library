@@ -1,16 +1,23 @@
 const myLibrary = [];
 const libraryContainer = document.getElementById('libraryContainer');
 const addBook = document.getElementById('add');
+const removeBtn = document.getElementById('remove');
+
 
 function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    const id = crypto.randomUUID();
+    this.id = crypto.randomUUID();
+    this.status = false;
 }
 
 Book.prototype.info = function() {
     return `${this.title} by ${this.author}, pg: ${this.pages}`;
+};
+
+Book.prototype.getId = function() {
+    return this.id;
 };
 
 function addBookToLibrary(name, author, pages) {
@@ -19,20 +26,116 @@ function addBookToLibrary(name, author, pages) {
 
 function displayBooks() {
     for (let book of myLibrary) {
-      let newBook = document.createElement('p');
-      newBook.textContent = book.info();
+      let newBook = document.createElement('div');
+      newBook.innerHTML = `      
+      <p>${book.info()}</p>
+      <button class ="remove" data-id = "${book.getId()}">Remove</button>
+      <button class ="read" data-id = "${book.getId()}">Read</button>
+      `;
+      
       newBook.classList.add("book");
-      libraryContainer.appendChild(newBook)
+      libraryContainer.appendChild(newBook);
+
+      const removeBtn = newBook.querySelector('.remove');
+      const readBtn = newBook.querySelector('.read');
+
+      removeBtn.addEventListener('click', () => {
+        console.log("clicked");
+        const clickedId = removeBtn.dataset.id;
+        console.log(clickedId);
+        for (let b of myLibrary) {
+          if (clickedId === b.getId()) {
+            console.log("Matched Book:", b.info());
+            removeBook(b, newBook);
+            break;
+          }
+        }
+      }) 
+
+      readBtn.addEventListener('click', () => {
+        console.log("clicked");
+        const clickedId = readBtn.dataset.id;
+        console.log(clickedId);
+        for (let b of myLibrary) {
+            if (clickedId === b.getId()) {    
+                console.log("Matched Book:", b.info());
+                if (b) {
+                    b.read = !b.read;
+                if (b.read) {
+                    newBook.classList.add("read");
+                    newBook.classList.remove("not-read");
+                } else {
+                    newBook.classList.add("not-read");
+                    newBook.classList.remove("read");
+                }
+                break;
+                }
+            }
+        }
+    })
     }
 }
 
 function updateDisplay() {
     const book = myLibrary[myLibrary.length - 1];
-    let newBook = document.createElement('p');
-    newBook.textContent = book.info();
+    let newBook = document.createElement('div');
+    newBook.innerHTML = `      
+      <p>${book.info()}</p>
+      <button class ="remove" data-id = "${book.getId()}">Remove</button>
+      <button class ="read" data-id = "${book.getId()}">Read</button>
+    `;
     newBook.classList.add("book");
-    libraryContainer.appendChild(newBook)
-  }  
+    libraryContainer.appendChild(newBook);
+
+    const removeBtn = newBook.querySelector('.remove');
+    const readBtn = newBook.querySelector('.read');
+
+    removeBtn.addEventListener('click', () => {
+        console.log("clicked");
+        const clickedId = removeBtn.dataset.id;
+        console.log(clickedId);
+        for (let b of myLibrary) {
+          if (clickedId === b.getId()) {
+            console.log("Matched Book:", b.info());
+            removeBook(b, newBook);
+            break;
+          }
+        }
+    }) 
+
+    readBtn.addEventListener('click', () => {
+        console.log("clicked");
+        const clickedId = readBtn.dataset.id;
+        console.log(clickedId);
+        for (let b of myLibrary) {
+            if (clickedId === b.getId()) {
+                console.log("Matched Book:", b.info());
+                if (b) {
+                    b.read = !b.read; // toggle status
+                if (b.read) {
+                    newBook.classList.add("read");
+                    newBook.classList.remove("not-read");
+                } else {
+                    newBook.classList.add("not-read");
+                    newBook.classList.remove("read");
+                }  
+                }
+            }
+        }
+    })
+  }
+
+  function removeBook(book, element) {
+    const index = myLibrary.indexOf(book);
+    if (index !== -1) {
+        myLibrary.splice(index, 1); // Removes 1 item at that index
+    }
+
+    element.remove();
+  }
+  
+
+
 
 addBook.addEventListener('click', () => {
     const dialog = document.createElement('dialog');
@@ -75,3 +178,7 @@ addBook.addEventListener('click', () => {
     });
 })
 
+addBookToLibrary('a', 'river', 10);
+addBookToLibrary('b', 'river', 20);
+
+displayBooks();
